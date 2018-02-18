@@ -1,24 +1,24 @@
 # image-cache
-[![Build Status](https://travis-ci.org/nyancodeid/image-cache.svg?branch=master)](https://travis-ci.org/nyancodeid/image-cache) [![npm version](https://badge.fury.io/js/image-cache.svg)](https://badge.fury.io/js/image-cache)  
+[![Build Status](https://travis-ci.org/nyancodeid/image-cache.svg?branch=master)](https://travis-ci.org/nyancodeid/image-cache) [![npm version](https://badge.fury.io/js/image-cache.svg)](https://badge.fury.io/js/image-cache)
 
 Powerful image cache for NodeJS
 
 ## What is image-cache?
-`image-cache` is nodejs module for cache image and serve with base64 format. `image-cache` using 
+`image-cache` is a NodeJS module for caching images and serving them in a base64 format. `image-cache` uses
 Asynchronous calls for best Performance.
 
 ## New
 - Compressed options default is `false`
 - Library Core now using Javascript Classes
 - New syntax and function
-- Now `image-cache` using [google proxy cache](https://gist.github.com/coolaj86/2b2c14b1745028f49207) for best caching.
+- Now using [google proxy cache](https://gist.github.com/coolaj86/2b2c14b1745028f49207) for best caching.
 
 ## Installation
-to install `image-cache` on your project, you can use NPM and Yarn with the following command, 
+In order to install `image-cache` in your project you can use NPM and Yarn using the following commands:
 
 ### NPM
 ```bash
-npm install --save image-cache 
+npm install --save image-cache
 ```
 
 ### Yarn
@@ -27,7 +27,7 @@ yarn add image-cache
 ```
 
 ## Usage
-Start using `image-cache` 
+Start using `image-cache`
 
 ```javascript
 const imageCache = require('image-cache');
@@ -36,26 +36,28 @@ const imageCache = require('image-cache');
 ## API
 
 ### setOptions
-is a function to replace options from `default options`. this function not returning something.
-for using this function, add this code after defining all variable.
+Used to override default options from the package. The function doesn't return anything and should
+be used after requiring `image-cache`. E.g.
 
 ```javascript
+const imageCache = require('image-cache');
+
 imageCache.setOptions({
    compressed: false
 
    // write your custom options here
 });
 ```
-#### API 
+#### API
 | Key          | Data Type    | Default Value    | Description |
 | :------------- | :----------- | :------------- | :------------- |
-| `dir` | `string` | `path.join(__dirname, 'cache/')` | directory root for cached files |
-| `compressed` | `boolean` | false | compressing cache output with zlib compressing maybe can make your processing cache little bit longer. for example without compressing is 6-7ms when using compressing is 150-185ms, but your cache file is a litle bit smaller than without compressing |
-| `extname` | `string` | `.cache` | file extension for your cache files |
-| `googleCache` | `boolean` | `true` | using google cache proxy |
+| `dir` | `string` | `path.join(__dirname, 'cache/')` | Root directory for your cached files |
+| `compressed` | `boolean` | false | Compress cache output with zlib. Compressing files can make the process of caching your files take a little longer. For example: without compression, saving a file takes 6-7ms but when using compression it takes 150-185ms. Compressed files however take less disk space |
+| `extname` | `string` | `.cache` | File extension for your cache files |
+| `googleCache` | `boolean` | `true` | Use google cache proxy |
 
 ### isCached()
-Check is your image already cached or not. this function need 2 params.
+Checks whether an image is already cached or not.
 
 ```javascript
 imageCache.isCached(url, callback);
@@ -64,8 +66,8 @@ imageCache.isCached(url, callback);
 #### Params
 | Key          | Data Type    |
 | :------------- | :----------- |
-| `url` | `string` | 
-| `callback` | `function` | 
+| `url` | `string` |
+| `callback` | `function` |
 
 #### Example Using Callback
 ```javascript
@@ -85,24 +87,24 @@ imageCache.isCached(url).then((exist) => {
 ```
 
 ### isCachedSync()
-Check is your image is cached with Synchronous processing. return as `boolean`
+Synchronously checks whether an image is already cached or not. Returns a `boolean`.
 
 #### Example
 
 ```javascript
-var exists = imageCache.isCachedSync(url);
+const exists = imageCache.isCachedSync(url);
 ```
 #### API
 | Params         | Data Type    | Description    |
-| :------------- | :----------- | :------------- | 
-| `url` | `string` | url of your image |
+| :------------- | :----------- | :------------- |
+| `url` | `string` | The URL of your image |
 
 
-### getCache
+### ~~getCache()~~
 Deprecated
 
 ### get()
-Get cached image
+Get a cached image
 
 #### Example
 ```javascript
@@ -114,21 +116,20 @@ imageCache.get(url, (error, image) => {
 ```
 #### API Callback
 | Key          | Data Type    | Description    |
-| :------------- | :----------- | :------------- | 
-| `image` | `object` | cache data object |
-| `image.error`  | `boolean`   | cache data error indicator |
-| `image.url`    | `string`   | image source url before transform to base64 format |
-| `image.hashFile` | `string` | filename cache |
-| `image.timestamp` | `integer` | timestamp when cache created |
-| `image.compressed` | `boolean` | is that cache compressed |
-| `image.data` | `string` | base64 code, ugly text from your beauty images |
+| :------------- | :----------- | :------------- |
+| `image` | `object` | Single cached image |
+| `image.error`  | `boolean`   | Error indicator |
+| `image.url`    | `string`   | The original image URL |
+| `image.hashFile` | `string` | The filename in the cache directory (`options.dir`) |
+| `image.timestamp` | `integer` | Timestamp of the cached file |
+| `image.compressed` | `boolean` | Whether the cache was compressed |
+| `image.data` | `string` | Base64 encoded version of the image |
 
-
-### getCacheSync
+### ~~getCacheSync()~~
 Deprecated
 
 ### getSync
-Get Cached image with Synchronous processing.
+Synchronously get a cached image
 
 #### Example
 
@@ -137,13 +138,13 @@ var image = imageCache.getSync('http://domain/path/to/image.png');
 ```
 
 #### API
-API return same like `.get()`
+API is the same as `get()`
 
-### setCache()
+### ~~setCache()~~
 Deprecated
 
 ### store()
-store new image want to cache, write cache files into `options.dir` Directory. set cache is working with multiple images (Array). 
+Stores a new image or set of images and writes the cached files into the `options.dir` directory. 
 
 ```javascript
 imageCache.store(images, callback);
@@ -152,21 +153,21 @@ imageCache.store(images, callback);
 #### Params
 | Key          | Data Type    |
 | :------------- | :----------- |
-| `images` | `array`|`string` | 
-| `callback` | `function` | 
+| `images` | `array`|`string` |
+| `callback` | `function` |
 
-#### Example Using Callback
+#### Example using callback
 ```javascript
-let images = 'https://eladnava.com/content/images/2015/11/js-6.jpg';
+const images = 'https://eladnava.com/content/images/2015/11/js-6.jpg';
 imageCache.store(images, function(error) {
    console.log(error);
 });
 ```
-#### Example Using Promise
+#### Example using promise
 ```javascript
-let images = 'https://eladnava.com/content/images/2015/11/js-6.jpg';
-imageCache.store(images).then((result) {
-    // do something when image stored
+const images = 'https://eladnava.com/content/images/2015/11/js-6.jpg';
+imageCache.store(images).then((result) => {
+    // Do something with your stored image(s)
 }).catch((e) => {
     console.log(e)
 });
@@ -174,16 +175,16 @@ imageCache.store(images).then((result) {
 
 #### API Callback and Promise Catch
 | Key          | Data Type    | Description    |
-| :------------- | :----------- | :------------- | 
-| `error` | `object` | this error came from `fs.writeFile`  |
+| :------------- | :----------- | :------------- |
+| `error` | `object` | This error came from `fs.writeFile`  |
 
-### flushCache()
+### ~~flushCache()~~
 Deprecated
 
 ### flush()
-Delete all cache files on your directory. this code will delete all cache on `options.dir` with extension name same as `options.extname`. 
+Delete all cache files in your `options.dir` with the same extension as your `options.extname`
 
-#### Example Using Callback
+#### Example using callback
 ```javascript
 imageCache.flush(function(error, results) {
    if (error) {
@@ -193,7 +194,7 @@ imageCache.flush(function(error, results) {
    }
 });
 ```
-#### Example Using Promise
+#### Example using promise
 ```javascript
 imageCache.flush().then((results) => {
     console.log(results);
@@ -205,43 +206,45 @@ imageCache.flush().then((results) => {
 #### API Callback
 | Key          | Data Type    | Description    |
 | :------------- | :----------- | :------------- |
-| `results` | `object` | details |
-| `results.deleted` | `number` | total of deleted files |
-| `results.totalFiles` | `number` | total files on directory |
-| `results.dir` | `string` | Directory cache images |
+| `results` | `object` |  |
+| `results.deleted` | `number` | Total # of deleted files |
+| `results.totalFiles` | `number` | Total # files in cache directory (`options.dir`) |
+| `results.dir` | `string` | Path to the flushed directory |
 
 ### flushSync()
-same like `flush` method, but using Synchronous processing.
+Synchronously flush the cache.
 
 #### Example
 
 ```javascript
-var results = imageCache.flushSync();
+const results = imageCache.flushSync();
 ```
 
 #### API
-same like `flush()`
+API is the same as `flush()`
 
 | Key          | Data Type    | Description    |
 | :------------- | :----------- | :------------- |
-| `results.error` | `boolean` | error statement |
-| `results.message` | `string` | error message |
+| `results.error` | `boolean` | Error indicator |
+| `results.message` | `string` | Error message |
 
-### fetchImage()
+### ~~fetchImage()~~
 Deprecated
 
 ### fetch()
-`fetch()` is a function to store cache and get cache data in one time. `fetch()` using Async processing for best performace. `fetch()` check your cache file first, if your image is not available in cache folder then this function will get image and return your cache data.
+Stores and retrieves data from the cache in one go. This function is asynchronous for best possible performance. 
+`fetch()` will check your local cache for the requested image and either serves that image if it exists or 
+downloads the image and saves it to the cache before serving it. 
 
 #### Params
 | Key          | Data Type    | Description    |
-| :------------- | :----------- | :------------- | 
-| `image` | `string` or `array` | image or array of images | 
+| :------------- | :----------- | :------------- |
+| `image` | `string` or `array` | Image or array of images |
 
 #### Example
 
 ```javascript
-var image = "http://path.to/image.jpg";
+const image = "http://path.to/image.jpg";
 
 imageCache.fetch(image).then((images) => {
    images.forEach((image) => {
@@ -259,21 +262,22 @@ imageCache.fetch(image).then((images) => {
 
 #### API
 | Key          | Data Type    | Description    |
-| :------------- | :----------- | :------------- | 
-| `images` | `array` | cache data array group |
-| `image` | `object` | cache data object |
-| `image.error`  | `boolean`   | cache data error indicator |
-| `image.url`    | `string`   | image source url before transform to base64 format |
-| `image.hashFile` | `string` | filename cache |
-| `image.timestamp` | `integer` | timestamp when cache created |
-| `image.compressed` | `boolean` | is that cache compressed |
-| `image.data` | `string` | base64 code, ugly text from your beauty images |
-| `image.cache` | `string` | cache status is "MISS" or "HIT" |
+| :------------- | :----------- | :------------- |
+| `images` | `array` | Array of cached images |
+| `image` | `object` | Single cached image |
+| `image.error`  | `boolean`   | Error indicator |
+| `image.url`    | `string`   | The original image URL |
+| `image.hashFile` | `string` | The filename in the cache directory (`options.dir`) |
+| `image.timestamp` | `integer` | Timestamp of the cached file |
+| `image.compressed` | `boolean` | Whether the cache was compressed |
+| `image.data` | `string` | Base64 encoded version of the image |
+| `image.cache` | `string` | Status of your cache (`MISS` or `HIT`) |
 
-## What is MISS or HIT mean?
+## What do HIT and MISS mean?
 
 ### MISS
-when your image is not available in the cache folder, image will be grab from image URL then cached on cache folder.
+MISS means that the requested image was not available in the cache directory (`options.dir`). The image was retrieved 
+from the given URL and saved to the cache directory before it was returned.
 
 ### HIT
-when your image is available in the cache folder, the image will be grab directly from cache folder.
+HIT means the requested image was available in the cache directory (`options.dir`) and returned immediately from cache.
